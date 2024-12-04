@@ -1,0 +1,1 @@
+# TODO : Créer une fonction pour insérer les users dans la base de données lies a la table sessions qui est une table de liaison entre les users et les cours, ne pas oublier de créer la fonction de savoir si l'utilisateur est admin ou eleve.
