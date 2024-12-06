@@ -1,9 +1,16 @@
 from app.models.cours import create_course
+from pymongo import MongoClient
 
+def get_db():
+    client = MongoClient('mongodb://localhost:27017/')
+    db = client['sms_nomades']
+    return db
 
-
-# TODO : Créer une fonction pour insérer les cours dans la base de données
-# JE DEJA AJOUTé LES FORMATIONS DANS LA BASE DE DONNéES A LA MAIN MAIS JE VEUX FAIRE UNE FONCTION QUI FAIT LE MEME TRAVAIL ICI
+def create_course(course):
+    db = get_db()
+    collection = db['courses']
+    collection.insert_one(course)
+    print(f"Curso {course['name']} inserido!")
 
 def seed_database():
     courses = [
