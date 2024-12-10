@@ -1,5 +1,4 @@
 from flask_smorest import Blueprint
-
 from .analyse_service import AnalyseService
 
 analyse = Blueprint('analyse', 'analyse', url_prefix='/api/analyse', description='Analyse course data')
