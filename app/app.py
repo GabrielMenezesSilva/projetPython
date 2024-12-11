@@ -15,43 +15,41 @@ class APIConfig:
     OPENAPI_SWAGGER_UI_PATH = '/docs'
     OPENAPI_SWAGGER_UI_URL = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 
-# Crée une instance de l'application Flask
+# Cria uma instância do aplicativo Flask
 app = Flask(__name__)
 app.config.from_object(APIConfig)
 
-# Active CORS pour l'application Flask
+# Ativa CORS para a aplicação Flask
 CORS(app)
 
 api = Api(app)
 
+# Registra os blueprints
 api.register_blueprint(cours)
 api.register_blueprint(analyse)
 
-# Définir une route pour l'endpoint /api/submit avec la méthode POST
+# Rota de teste
+@app.route('/ping', methods=['GET'])
+def ping():
+    return jsonify({"message": "Server is running!"}), 200
+
+# Rota de submissão
 @app.route('/api/submit', methods=['POST'])
 def submit():
-    # Vérifie si la méthode de la requête est POST
-    if request.method == 'POST':
-        try:
-            # Récupère les données JSON de la requête
-            data = request.get_json()
-            print("Requête POST reçue")
-            
-            # Vérifie si les données sont nulles
-            if data is None:
-                print("Aucune donnée reçue")
-                return jsonify({"message": "Aucune donnée reçue"}), 400
-            
-            # Insère l'évaluation dans la base de données
-            insert_evaluation(data)
-            
-            # Retourne une réponse JSON avec un message de succès
-            return jsonify({"message": "Données reçues avec succès !"}), 200
-        except Exception as e:
-            # En cas d'erreur, affiche l'erreur et retourne une réponse JSON avec un message d'erreur
-            print(f"Erreur : {e}")
-            return jsonify({"message": "Erreur lors du traitement des données."}), 500
+    try:
+        data = request.get_json()
+        print(f"Requisição POST recebida com dados: {data}")
+
+        if not data:
+            return jsonify({"message": "Aucune donnée reçue"}), 400
+
+        insert_evaluation(data)
+        return jsonify({"message": "Données reçues avec succès !"}), 200
+    except Exception as e:
+        print(f"Erro: {e}")
+        return jsonify({"message": "Erro ao processar dados."}), 500
 
 if __name__ == '__main__':
-    # Démarre l'application Flask sur l'hôte 0.0.0.0 et le port 3000
+    # Inicia o servidor Flask
+    print("Servidor iniciado na porta 3000")
     app.run(debug=True, host='0.0.0.0', port=3000)

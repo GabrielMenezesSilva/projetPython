@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Chart.js example</title>
+  </head>
+  <body>
+    <!-- <div style="width: 500px;"><canvas id="dimensions"></canvas></div><br/> -->
+    <div style="width: 800px">
+      <canvas id="myChart" style="width: 100%; max-width: 700px"></canvas>
+    </div>
+
+    <!-- <script type="module" src="dimensions.js"></script> -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+    <script>
+      fetch("http://127.0.0.1:3000/api/analyse/PSE")
+        .then((response) => response.json())
+        .then((data) => {
+          var xValues = data.x;
+          var yValues = data.y;
+
+          new Chart("myChart", {
+            type: data.type_chart,
+            data: {
+              labels: xValues,
+              datasets: [
+                {
+                  data: yValues,
+                },
+              ],
+              options: {
+                scales: {
+                  yAxes: [
+                    {
+                      ticks: {
+                        beginAtZero: true,
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          });
+        });
+    </script>
+  </body>
+</html>

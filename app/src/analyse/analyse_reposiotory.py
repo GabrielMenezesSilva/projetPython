@@ -10,12 +10,14 @@ from pymongo import MongoClient
 project_path = os.path.abspath(os.path.join(os.getcwd(), '..', '..', '..'))
 if project_path not in sys.path:
     sys.path.append(project_path)
+    
+from config.mango_db import get_db
 
 # Fonction pour se connecter à la base de données
-def get_db():
-    client = MongoClient('mongodb://localhost:27017/')
-    db = client['sms_nomades']
-    return db
+# def get_db():
+#     client = MongoClient('mongodb://localhost:27017/')
+#     db = client['sms_nomades']
+#     return db
 
 # Classe pour l'analyse des données
 class AnalyseRepository:
@@ -27,7 +29,7 @@ class AnalyseRepository:
     def insert_sample_data(self, num_entries=100):
         """insérer des données simulées dans la collection 'evaluations'."""
         formations = ['JavaScript', 'Python', 'Data Science', 'Web Development']
-        professors = ['Antonio Pisanello', 'Maria Silva', 'João Souza']
+        professors = ['Antonio Pisanello', 'Nico Fazio', 'Pierre-Marie Vial']
         for _ in range(num_entries):
             self.collection.insert_one({
                 'Formationsuivie': random.choice(formations),
