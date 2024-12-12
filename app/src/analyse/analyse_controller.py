@@ -18,3 +18,17 @@ def analyse(cours_id):
 	
 	# Retornar o resultado como JSON
 	return jsonify(result)
+
+@analyse_controller.route('/api/courses/analyse', methods=['GET'])
+def analyse():
+	# Instanciar o serviço de análise
+	analyse_service = AnalyseService()
+	
+	# Obter o ID do curso a partir dos parâmetros da requisição
+	# cours_id = request.args.get(cours_id)
+	
+	# Chamar o método do serviço
+	result = analyse_service.analyse_all_courses_per_time()
+	
+	# Retornar o resultado como JSON
+	return jsonify(result)

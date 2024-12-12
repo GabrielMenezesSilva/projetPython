@@ -5,6 +5,8 @@ from .analyse_reposiotory import AnalyseRepository
 from .analyse import Analyse
 from datetime import datetime
 
+from ..cours.cours_service import CoursService
+
 class AnalyseService:
     def __init__(self):
         self.repository = AnalyseRepository()
@@ -19,20 +21,20 @@ class AnalyseService:
         # Converter para DataFrame e calcular a média
         df = self.evaluations_to_dataframe(evaluations)
         if df.empty:
-            return self.format_to_json(
+            return [self.format_to_json(
                 Analyse(
-                    name="Sem dados para análise",
+                    name=cours_id,
                     date=datetime.now().strftime("%Y-%m-%d"),
                     x=[],
-                    y=[]
-                ),
-                "bar"  # Tipo de gráfico padrão no caso de ausência de dados
-            )
+                    y=[],
+                    chart_type=None  # Tipo de gráfico padrão no caso de ausência de dados
+                )
+            )]
 
         grouped = df.groupby('Datesdelaformation')['rating'].mean().reset_index()
 
         # Retornar os dados formatados
-        return self.format_to_json(
+        return [self.format_to_json(
             Analyse(
                 name=cours_id,
                 date=datetime.now().strftime("%Y-%m-%d"),
@@ -40,7 +42,7 @@ class AnalyseService:
                 y=grouped['rating'].tolist(),
                 chart_type="line"  # Gráfico de linha como padrão para análise de cursos
             ) # Gráfico de linha como padrão para análise de cursos
-        )
+        )]
 
     def compute_analyse_per_professor(self, professor_id: str) -> dict:
         # Recupera todas as avaliações para um professor específico
@@ -96,6 +98,15 @@ class AnalyseService:
 
         return df
 
+    def analyse_all_courses_per_time(self) -> dict:
+        cs = CoursService()
+        l_cours = cs.get_all_courses()
+        courses_analysis = []
+        for cours in l_cours:
+            courses_analysis += self.compute_analyse_per_course(cours.id)
+        return courses_analysis
+        
+        
     def format_to_json(self, analyse: Analyse) -> dict:
         """Formata o objeto de análise para JSON no padrão esperado pelo frontend."""
         return analyse.to_dict()
