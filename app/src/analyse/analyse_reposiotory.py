@@ -14,3 +14,6 @@ class AnalyseRepository:
         
     def get_all_evaluations_by_course(self, cours_id: str):
         return self.get_data("evaluations", {"Formationsuivie.id": cours_id})
+    
+    def get_all_evaluations_by_professor(self, professor_id: str):
+        return list(self.db.evaluations.find({"professor_id": professor_id, "rating_prof": {"$exists": True}}))
