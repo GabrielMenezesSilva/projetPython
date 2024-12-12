@@ -34,12 +34,12 @@ class AnalyseService:
         # Retornar os dados formatados
         return self.format_to_json(
             Analyse(
-                name="Análise por Curso",
+                name=cours_id,
                 date=datetime.now().strftime("%Y-%m-%d"),
                 x=grouped['Datesdelaformation'].astype(str).tolist(),
-                y=grouped['rating'].tolist()
-            ),
-            "line"  # Gráfico de linha como padrão para análise de cursos
+                y=grouped['rating'].tolist(),
+                chart_type="line"  # Gráfico de linha como padrão para análise de cursos
+            ) # Gráfico de linha como padrão para análise de cursos
         )
 
     def compute_analyse_per_professor(self, professor_id: str) -> dict:
@@ -91,14 +91,18 @@ class AnalyseService:
             df['Datesdelaformation'] = pd.to_datetime(df['Datesdelaformation'], errors='coerce')
         if 'rating' in df.columns:
             df['rating'] = pd.to_numeric(df['rating'], errors='coerce')
+        else:
+            df['rating'] = 0 # TODO: compute the rating automatically given the form
 
         return df
 
-    def format_to_json(self, analyse: Analyse, chart_type: str) -> dict:
+    def format_to_json(self, analyse: Analyse) -> dict:
         """Formata o objeto de análise para JSON no padrão esperado pelo frontend."""
-        response = AnalyseResponse(
-            x=analyse.x,
-            y=analyse.y,
-            type_chart=chart_type  # Define o tipo de gráfico dinamicamente
-        )
-        return response.dict()
+        return analyse.to_dict()
+        # return AnalyseResponse.dump(analyse, chart_type)
+        # response = AnalyseResponse(
+        #     x=analyse.x,
+        #     y=analyse.y,
+        #     type_chart=chart_type  # Define o tipo de gráfico dinamicamente
+        # )
+        # return response.dict()

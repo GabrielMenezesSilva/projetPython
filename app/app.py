@@ -3,7 +3,7 @@ from flask_smorest import Api
 from flask_cors import CORS
 
 from src.cours.cours_controller import cours
-from src.analyse.analyse_controller import analyse
+from src.analyse.analyse_controller import analyse_controller
 from config.mango_db import insert_evaluation
 
 
@@ -26,7 +26,7 @@ api = Api(app)
 
 # Registra os blueprints
 api.register_blueprint(cours)
-api.register_blueprint(analyse)
+api.register_blueprint(analyse_controller)
 
 # Rota de teste
 @app.route('/ping', methods=['GET'])

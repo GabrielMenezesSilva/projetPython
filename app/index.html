@@ -14,7 +14,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
     <script>
-      fetch("http://127.0.0.1:3000/api/analyse/PSE")
+      fetch("http://127.0.0.1:3000/api/analyse")
         .then((response) => response.json())
         .then((data) => {
           var xValues = data.x;

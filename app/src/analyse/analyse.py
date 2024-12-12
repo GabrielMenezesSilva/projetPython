@@ -1,17 +1,19 @@
 class Analyse:
     # Initialisation de la classe AnalyseDTO avec les attributs id, name, created_at et updated_at
-    def __init__(self, name, created_at, x, y):
+    def __init__(self, name, date, x, y, chart_type = "line"):
         self.name = name
-        self.created_at = created_at
+        self.date = date
         self.x = x
         self.y = y
-        self.type_chart = 'line'
+        self.chart_type = chart_type
         
     # Méthode pour convertir les attributs de l'objet en dictionnaire
     def to_dict(self):
         return {
-            "id": self.id,
             "name": self.name,
-            "created_at": self.created_at            
+            "date": self.date,
+            "x": self.x,
+            "y": self.y,
+            "chart_type": self.chart_type   
         }
     
