@@ -80,9 +80,3 @@ Responsable de l'interaction avec les données des professeurs, telles que la r�
 Cette documentation fournit un aperçu de la **structure du projet** ainsi que de la **fonctionnalité de chaque fichier**. Chaque fichier et chaque répertoire ont un rôle bien défini dans l'architecture de l'application, permettant une organisation modulaire et claire du code.
 
 ---
-
-## Conseils de Présentation
-
-- **Titres et Gras** : Utiliser des titres et des textes en **gras** pour souligner les sections importantes comme les noms de fichiers et de répertoires.
-- **Listes à puces** ou **numérotées** : Employez des listes pour clarifier les étapes ou les éléments de chaque section.
-- **Sections bien définies** : La séparation en sections distinctes, telles que "Structure du Projet" et "Description des Fonctionnalités", aide à la navigation dans la documentation.
